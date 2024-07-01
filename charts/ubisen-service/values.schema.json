@@ -1,0 +1,546 @@
+{
+    "title": "Chart Values",
+    "type": "object",
+    "properties": {
+        "labels": {
+            "type": "object",
+            "properties": {
+                "app": {
+                    "type": "string",
+                    "description": "common app label",
+                    "default": "ubisen-service"
+                },
+                "role": {
+                    "type": "string",
+                    "description": "common role label",
+                    "default": "worker"
+                },
+                "release": {
+                    "type": "string",
+                    "description": "allow prometheus scrape metrics",
+                    "default": "prometheus"
+                }
+            }
+        },
+        "nameOverride": {
+            "type": "string",
+            "description": "String to partially override common.names.fullname",
+            "default": ""
+        },
+        "image": {
+            "type": "object",
+            "properties": {
+                "pullPolicy": {
+                    "type": "string",
+                    "description": "pull image policy",
+                    "default": "IfNotPresent"
+                },
+                "registry": {
+                    "type": "string",
+                    "description": "image registry",
+                    "default": "registry.hub.docker.com"
+                },
+                "repository": {
+                    "type": "string",
+                    "description": "image repository",
+                    "default": "busybox"
+                },
+                "tag": {
+                    "type": "string",
+                    "description": "image tag",
+                    "default": "stable"
+                }
+            }
+        },
+        "replicas": {
+            "type": "number",
+            "description": "Number of Metrics Server replicas to deploy",
+            "default": 2
+        },
+        "defaultEnvVars": {
+            "type": "array",
+            "description": "default environments ",
+            "default": []
+        },
+        "extraEnvVars": {
+            "type": "array",
+            "description": "Extra environments ",
+            "default": []
+        },
+        "inputEnvVars": {
+            "type": "array",
+            "description": "input environments ",
+            "default": []
+        },
+        "migration": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "description": "migration script enabled",
+                    "default": false
+                },
+                "skip": {
+                    "type": "boolean",
+                    "description": "migration script skip",
+                    "default": true
+                },
+                "migrationArgs": {
+                    "type": "array",
+                    "description": "command arg for migration script",
+                    "default": [
+                        "./migration"
+                    ]
+                }
+            }
+        },
+        "configurations": {
+            "type": "array",
+            "description": "configmap configuration data",
+            "default": []
+        },
+        "priorityClassName": {
+            "type": "string",
+            "description": "Priority class for pod scheduling",
+            "default": "system-cluster-critical"
+        },
+        "podAffinityPreset": {
+            "type": "string",
+            "description": "Pod affinity preset",
+            "default": ""
+        },
+        "podAntiAffinityPreset": {
+            "type": "string",
+            "description": "Pod anti-affinity preset",
+            "default": "soft"
+        },
+        "podDisruptionBudget": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "description": "Pod disruption budget enabled",
+                    "default": false
+                },
+                "minAvailable": {
+                    "type": "number",
+                    "description": "Pod disruption budget min available pod",
+                    "default": 1
+                },
+                "maxUnavailable": {
+                    "type": "number",
+                    "description": "Pod disruption budget max unavailable pod",
+                    "default": 3
+                }
+            }
+        },
+        "nodeAffinityPreset": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description": "Node affinity preset type",
+                    "default": ""
+                },
+                "key": {
+                    "type": "string",
+                    "description": "Node affinity preset key",
+                    "default": ""
+                },
+                "values": {
+                    "type": "array",
+                    "description": "Node affinity preset values",
+                    "default": []
+                }
+            }
+        },
+        "affinity": {
+            "type": "object",
+            "description": "Affinity for pod assignment. Evaluated as a template.",
+            "default": {}
+        },
+        "nodeSelector": {
+            "type": "object",
+            "description": "node group name for node selector",
+            "default": {}
+        },
+        "tolerations": {
+            "type": "array",
+            "description": "Tolerations for pod assignment. Evaluated as a template.",
+            "default": []
+        },
+        "extraVolumeMounts": {
+            "type": "array",
+            "description": "extra volume mounts name",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "extra volume mounts name"
+                    },
+                    "mountPath": {
+                        "type": "string",
+                        "description": "extra volume mounts path"
+                    }
+                }
+            }
+        },
+        "extraVolumes": {
+            "type": "array",
+            "description": "extra volume name",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "extra volume name"
+                    },
+                    "emptyDir": {
+                        "type": "object",
+                        "description": "extra volume emptyDir definition"
+                    }
+                }
+            }
+        },
+        "extraArgs": {
+            "type": "array",
+            "description": "extra arguments pass to service container",
+            "default": []
+        },
+        "containerPort": {
+            "type": "number",
+            "description": "Container port",
+            "default": 3000
+        },
+        "service": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description": "Kubernetes service type",
+                    "default": "ClusterIP"
+                },
+                "labels": {
+                    "type": "object",
+                    "description": "Kubernetes service labels",
+                    "default": {}
+                },
+                "ports": {
+                    "type": "array",
+                    "description": "Kubernetes service for http port",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Kubernetes service for https port"
+                            },
+                            "port": {
+                                "type": "number",
+                                "description": "Kubernetes service port"
+                            },
+                            "targetPort": {
+                                "type": "number",
+                                "description": "Kubernetes service target container port"
+                            },
+                            "protocol": {
+                                "type": "string",
+                                "description": "Kubernetes service protocol is TCP"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "ingress": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "description": "Kubernetes ingress enabled",
+                    "default": true
+                },
+                "labels": {
+                    "type": "object",
+                    "description": "Kubernetes ingress labels",
+                    "default": {}
+                },
+                "port": {
+                    "type": "number",
+                    "description": "Kubernetes ingress port",
+                    "default": 80
+                },
+                "path": {
+                    "type": "string",
+                    "description": "Kubernetes ingress path",
+                    "default": "/"
+                },
+                "pathType": {
+                    "type": "string",
+                    "description": "Kubernetes ingress pathType",
+                    "default": "Prefix"
+                },
+                "tls": {
+                    "type": "array",
+                    "description": "Kubernetes ingress tls",
+                    "default": []
+                },
+                "hosts": {
+                    "type": "array",
+                    "description": "hosts list",
+                    "default": [
+                        "app.owi.ubisen.net"
+                    ]
+                }
+            }
+        },
+        "resources": {
+            "type": "object",
+            "properties": {
+                "limits": {
+                    "type": "object",
+                    "properties": {
+                        "cpu": {
+                            "type": "string",
+                            "description": "Kubernetes resources limit cpu configure",
+                            "default": "250m"
+                        },
+                        "memory": {
+                            "type": "string",
+                            "description": "Kubernetes resources limit memory configure",
+                            "default": "512Mi"
+                        }
+                    }
+                },
+                "requests": {
+                    "type": "object",
+                    "properties": {
+                        "cpu": {
+                            "type": "string",
+                            "description": "Kubernetes resources requests cpu configure",
+                            "default": "100m"
+                        },
+                        "memory": {
+                            "type": "string",
+                            "description": "Kubernetes resources requests memory configure",
+                            "default": "256Mi"
+                        }
+                    }
+                }
+            }
+        },
+        "metrics": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "description": "Enable the export of Prometheus metrics",
+                    "default": true
+                },
+                "serviceMonitor": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "description": "if `true`, creates a Prometheus Operator ServiceMonitor (also requires `metrics.enabled` to be `true`)",
+                            "default": true
+                        },
+                        "namespace": {
+                            "type": "string",
+                            "description": "Namespace in which Prometheus is running",
+                            "default": ""
+                        },
+                        "interval": {
+                            "type": "string",
+                            "description": "Interval at which metrics should be scraped.",
+                            "default": ""
+                        },
+                        "scrapeTimeout": {
+                            "type": "string",
+                            "description": "Timeout after which the scrape is ended",
+                            "default": ""
+                        },
+                        "selector": {
+                            "type": "object",
+                            "description": "Prometheus instance selector labels",
+                            "default": {}
+                        },
+                        "metricRelabelings": {
+                            "type": "array",
+                            "description": "Specify Metric Relabellings to add to the scrape endpoint",
+                            "default": []
+                        },
+                        "honorLabels": {
+                            "type": "boolean",
+                            "description": "Labels to honor to add to the scrape endpoint",
+                            "default": false
+                        },
+                        "additionalLabels": {
+                            "type": "object",
+                            "description": "Additional custom labels for the ServiceMonitor",
+                            "default": {}
+                        },
+                        "jobLabel": {
+                            "type": "string",
+                            "description": "The name of the label on the target service to use as the job name in prometheus.",
+                            "default": ""
+                        },
+                        "port": {
+                            "type": "string",
+                            "description": "service monitor port mapping with Kubernetes service endpoint port",
+                            "default": "metrics"
+                        }
+                    }
+                }
+            }
+        },
+        "healthz": {
+            "type": "object",
+            "properties": {
+                "startupProbe": {
+                    "type": "string",
+                    "description": "Kubernetes container startupProbe",
+                    "default": "/liveness"
+                },
+                "livenessProbe": {
+                    "type": "string",
+                    "description": "Kubernetes container livenessProbe",
+                    "default": "/liveness"
+                },
+                "readinessProbe": {
+                    "type": "string",
+                    "description": "Kubernetes container readinessProbe",
+                    "default": "/healthz"
+                }
+            }
+        },
+        "autoscaling": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "description": "enable/disable KEDA scale based on SQS metrics",
+                    "default": true
+                },
+                "AWS_ACCESS_KEY_ID": {
+                    "type": "string",
+                    "description": "aws_access_key_id",
+                    "default": "please update your aws_access_key_id"
+                },
+                "AWS_SECRET_ACCESS_KEY": {
+                    "type": "string",
+                    "description": "aws_secret_access_key",
+                    "default": "please update your aws_secret_access_key"
+                },
+                "mode": {
+                    "type": "string",
+                    "description": "resource|queue. autoscaling by resource(cpu, memory) or queue length.",
+                    "default": "internal"
+                },
+                "policy": {
+                    "type": "object",
+                    "properties": {
+                        "minReplicas": {
+                            "type": "number",
+                            "description": "- min relpicas",
+                            "default": 1
+                        },
+                        "maxReplicas": {
+                            "type": "number",
+                            "description": "- max relpicas",
+                            "default": 10
+                        },
+                        "pollingInterval": {
+                            "type": "number",
+                            "description": "- This is the interval to check each trigger on. By default KEDA will check each trigger source on every ScaledObject every 30 seconds.",
+                            "default": 30
+                        },
+                        "cooldownPeriod": {
+                            "type": "number",
+                            "description": "- The period to wait after the last trigger reported active before scaling the deployment back to 0. By default it’s 5 minutes (300 seconds).",
+                            "default": 300
+                        },
+                        "targetCPU": {
+                            "type": "number",
+                            "description": "- cpu percent threshold",
+                            "default": 75
+                        },
+                        "targetMemory": {
+                            "type": "number",
+                            "description": "- Memory percent threshold",
+                            "default": 95
+                        }
+                    }
+                },
+                "triggers": {
+                    "type": "array",
+                    "description": "cpu trigger type",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "description": "aws-sqs-queue trigger type"
+                            },
+                            "metadata": {
+                                "type": "object",
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "description": "memory Utilization/AverageValue"
+                                    },
+                                    "value": {
+                                        "type": "string",
+                                        "description": "memory value percent"
+                                    },
+                                    "queueURL": {
+                                        "type": "string",
+                                        "description": "- Full URL for the SQS Queue."
+                                    },
+                                    "queueLength": {
+                                        "type": "string",
+                                        "description": "- Target value for queue length passed to the scaler. Example: if one pod can handle 10 messages, set the queue length target to 10. If the actual messages in the SQS Queue is 30, the scaler scales to 3 pods. (default: 5). For the purposes of autoscaling, “actual messages” is equal to ApproximateNumberOfMessages + ApproximateNumberOfMessagesNotVislble, since NotVisible in SQS terms means the message is still in-flight/processing."
+                                    },
+                                    "awsRegion": {
+                                        "type": "string",
+                                        "description": "- AWS Region for the SQS Queue."
+                                    }
+                                }
+                            },
+                            "authenticationRef": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "name of authentication reference object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "securityContext": {
+            "type": "object",
+            "properties": {
+                "readOnlyRootFilesystem": {
+                    "type": "boolean",
+                    "description": "- set file system is readonly",
+                    "default": true
+                },
+                "runAsNonRoot": {
+                    "type": "boolean",
+                    "description": "- run as a noon root user",
+                    "default": true
+                },
+                "runAsUser": {
+                    "type": "number",
+                    "description": "- run as a specific user by rule",
+                    "default": 1000
+                }
+            }
+        }
+    }
+}

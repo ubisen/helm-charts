@@ -1,0 +1,31 @@
+annotations:
+  category: %%CHOOSE_ONE_FROM_CHART_CATEGORIES_FILE%%
+apiVersion: v2
+appVersion: %%UPSTREAM_PROJECT_VERSION%%
+dependencies:
+  - condition: SUBCHART_NAME.enabled
+    name: SUBCHART_NAME
+    repository: https://helm-charts.ubisen.net/helm-charts
+    version: %%MAJOR_SUBCHART_VERSION_(A.X.X)%%
+  - name: common
+    repository: https://helm-charts.ubisen.net/helm-charts
+    tags:
+      - ubisen-common
+    version: 1.x.x
+description: %%DESCRIPTION%%
+engine: gotpl
+home: %%UPSTREAM_PROJECT_URL%%
+icon: https://helm-charts.ubisen.net/assets/stacks/%%IMAGE_NAME%%/img/%%IMAGE_NAME%%-stack-110x117.png
+keywords:
+  - %%UPSTREAM_PROJECT_KEYWORD%%
+  - %%UPSTREAM_PROJECT_KEYWORD%%
+  - ...
+maintainers:
+  - email: nhat.nguyen@ubisen.net
+    name: ubisen
+name: %%CHART_NAME%%
+sources:
+  - https://github.com/ubisen/ubisen-docker-%%IMAGE_NAME%%
+  - %%UPSTREAM_PROJECT_SOURCE_CODE_URL%%
+  - ...
+version: 0.1.0

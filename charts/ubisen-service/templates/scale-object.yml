@@ -1,0 +1,18 @@
+{{- if .Values.autoscaling.enabled }}
+{{- if eq .Values.autoscaling.mode "external" }}
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ .Values.labels.app }}-aws-sqs-scaled-object
+  namespace: {{ .Release.Namespace }}
+spec:
+  scaleTargetRef:
+    name: {{ .Values.labels.app }}
+  pollingInterval: {{ .Values.autoscaling.policy.pollingInterval }}
+  cooldownPeriod:  {{ .Values.autoscaling.policy.cooldownPeriod }}
+  minReplicaCount: {{ .Values.autoscaling.policy.minReplicas }}
+  maxReplicaCount: {{ .Values.autoscaling.policy.maxReplicas }}
+  triggers:
+  {{- include "common.tplvalues.render" ( dict "value" .Values.autoscaling.triggers "context" $ ) | nindent 4 }}
+{{- end }}
+{{- end }}
